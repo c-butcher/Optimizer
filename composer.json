@@ -1,0 +1,19 @@
+{
+  "name": "my-optimizer/my-optimizer",
+  "description": "Configures a variety of plugins so they perform at their most optimal.",
+  "version": "0.1.0",
+  "homepage": "http://www.wordpress.org/plugins",
+  "autoload": {
+    "psr-0": { "My\\Optimized\\": "" },
+    "psr-4": { "My\\Optimized\\": "" },
+    "exclude-from-classmap": [
+      "/Tests/"
+    ]
+  },
+  "require": {
+    "php": "^5.4 || ^7.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.7"
+  }
+}

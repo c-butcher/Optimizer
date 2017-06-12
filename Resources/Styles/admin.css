@@ -1,0 +1,47 @@
+.a2-optimized header {
+  width: 100%;
+  box-sizing: border-box; }
+  .a2-optimized header h1 {
+    margin: 0;
+    padding: 30px 20px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    background: #fff; }
+  .a2-optimized header menu {
+    padding: 0;
+    margin: 15px 0 0 0; }
+  .a2-optimized header menu a {
+    margin: 0;
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    background: #fff;
+    text-align: center;
+    max-height: 100px; }
+  .a2-optimized header menu a i {
+    display: block;
+    min-width: 36px;
+    min-height: 36px;
+    margin: 0;
+    padding: 0; }
+.a2-optimized section {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 1px solid #CCC;
+  border-radius: 5px;
+  background: #fff; }
+
+.a2-optimized menu .w3_total_cache i {
+  background: transparent url(../Images/w3tc.png) no-repeat center center;
+  background-size: contain; }
+.a2-optimized menu .wordfence_security i {
+  background: transparent url(../Images/wordfence.png) no-repeat center center;
+  background-size: contain; }
+.a2-optimized menu .ewww_image_optimizer i {
+  background: transparent url(../Images/ewww.png) no-repeat center center;
+  background-size: contain; }
+
+/*# sourceMappingURL=admin.css.map */
