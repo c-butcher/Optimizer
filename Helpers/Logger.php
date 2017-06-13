@@ -182,6 +182,11 @@ class Logger {
 		return $messages;
 	}
 
+	/**
+	 * Clear out all of the log messages.
+	 *
+	 * @param null $level
+	 */
 	public function clear( $level = null ) {
 
 		if ( $level === null ) {
@@ -210,7 +215,6 @@ class Logger {
 	 * @return void
 	 */
 	public function log( $level, $message, array $context = array() ) {
-
 		$replaces = array();
 		foreach ( $context as $name => $value ) {
 			if ( ! is_array( $value ) && ( ! is_object( $value ) || method_exists( $value, '__toString' ) ) ) {

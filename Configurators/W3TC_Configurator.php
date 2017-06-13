@@ -13,6 +13,13 @@ class W3TC_Configurator implements ConfiguratorInterface {
 	 */
 	protected $config;
 
+	/**
+	 * W3TC_Configurator constructor.
+	 *
+	 * @inheritdoc
+	 *
+	 * @param null $config
+	 */
 	public function __construct( $config = null ) {
 		if ( ! is_object( $config ) || ! $config instanceof \W3TC\Config ) {
 			$config = new \W3TC\Config();
@@ -21,26 +28,59 @@ class W3TC_Configurator implements ConfiguratorInterface {
 		$this->config = $config;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param string $name
+	 * @param null $default
+	 *
+	 * @return null
+	 */
 	public function get( $name, $default = null ) {
 		return $this->config->get( $name, $default );
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param string $name
+	 * @param mixed $value
+	 *
+	 * @return $this
+	 */
 	public function set( $name, $value ) {
 		$this->config->set( $name, $value );
 
 		return $this;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 */
 	public function has( $name ) {
 		return $this->config->get( $name, null ) !== null ? true : false;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @return bool
+	 */
 	public function save() {
 		$this->config->save();
 
 		return true;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @return array|mixed|object
+	 */
 	public function getConfiguration() {
 		$json = $this->config->export();
 
@@ -51,6 +91,13 @@ class W3TC_Configurator implements ConfiguratorInterface {
 		return $config;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param array $configuration
+	 *
+	 * @return $this
+	 */
 	public function setConfiguration( array $configuration ) {
 		foreach ( $configuration as $name => $value ) {
 			$this->config->set( $name, $value );
@@ -59,6 +106,13 @@ class W3TC_Configurator implements ConfiguratorInterface {
 		return $this;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param array $arguments
+	 *
+	 * @return array
+	 */
 	public function getSuggestions( array $arguments = array() ) {
 		$suggestions = array();
 
@@ -106,6 +160,13 @@ class W3TC_Configurator implements ConfiguratorInterface {
 		return $suggestions;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param array $optimizations
+	 *
+	 * @return bool
+	 */
 	public function configure( array $optimizations = array() ) {
 		if ( isset( $optimizations['pgcache.enabled'] ) ) {
 			$this->set( 'pgcache.enabled', true );

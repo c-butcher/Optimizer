@@ -39,12 +39,10 @@ class AdminController {
 	 * optimizations of a specific plugin. In order to do that correctly, we
 	 * need to detect the server and environment settings, then we need to
 	 * find out the best way to optimize the plugin.
-	 *
-	 * @return void
 	 */
 	public static function OptimizePlugin() {
 		if ( ! isset( $_REQUEST['my_plugin'] ) ) {
-			return;
+			return null;
 		}
 
 		$plugin    = $_REQUEST['my_plugin'];
@@ -62,14 +60,14 @@ class AdminController {
 		 * Certain plugins are going to be recommended, and when those plugins don't
 		 * exist, the we are going to have to ask the user to install them. */
 		if ( ! $plugins->hasPlugin( $plugin ) ) {
-			return self::InstallPlugin();
+			return self::Introduction();
 		}
 
 		/**
 		 * The plugin is already installed but not activated?
 		 * Obviously we need to ask the user to activate the plugin. */
 		if ( ! $plugins->isPluginActive( $plugin ) ) {
-			return self::ActivatePlugin();
+			return self::Introduction();
 		}
 
 		$plugin       = $plugins->getPluginInformation( $_REQUEST['my_plugin'] );
@@ -135,7 +133,7 @@ class AdminController {
 		wp_enqueue_style( 'my_optimized_admin_css', MY_OPTIMIZED_URL . 'Resources/Styles/admin.css' );
 		wp_enqueue_script( 'my_optimized_admin_js', MY_OPTIMIZED_URL . 'Resources/Scripts/admin.js', ['jquery'] );
 
-		View::render( 'OptimizePlugin', array(
+		return View::render( 'OptimizePlugin', array(
 			'plugin'       => $plugin,
 			'plugins'      => $plugins,
 			'optimizer'    => $optimizer,
@@ -221,7 +219,7 @@ class AdminController {
 		wp_enqueue_style( 'my_optimized_admin_css', MY_OPTIMIZED_URL . 'Resources/Styles/admin.css' );
 		wp_enqueue_script( 'my_optimized_admin_js', MY_OPTIMIZED_URL . 'Resources/Scripts/admin.js', ['jquery'] );
 
-		View::render( 'Backups', array(
+		return View::render( 'Backups', array(
 			'plugin'    => $plugin,
 			'plugins'   => $plugins,
 			'optimizer' => $optimizer,
@@ -229,10 +227,14 @@ class AdminController {
 		) );
 	}
 
+	/**
+	 * This page will display any success, error, warning or notices on the
+	 * administrator pages.
+	 */
 	public static function DisplayNotices() {
 		$logger = Logger::getInstance();
 
-		View::render( 'Notices', array(
+		return View::render( 'Notices', array(
 			'successes' => $logger->get( 'success' ),
 			'errors'    => $logger->get( 'error' ),
 			'warnings'  => $logger->get( 'warning' ),

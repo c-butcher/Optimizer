@@ -6,12 +6,30 @@ use My\Optimized\Helpers\Logger;
 
 class EWWW_Configurator implements ConfiguratorInterface {
 
+	/**
+	 * @var array
+	 */
 	protected $config;
 
+	/**
+	 * EWWW_Configurator constructor.
+	 *
+	 * @inheritdoc
+	 *
+	 * @param array|object|null @config
+	 */
 	public function __construct( $config = null ) {
 		$this->config = $this->getConfiguration();
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param string $name
+	 * @param null $default
+	 *
+	 * @return mixed|null
+	 */
 	public function get( $name, $default = null ) {
 		if ( ! $this->has( $name ) ) {
 			return $default;
@@ -20,6 +38,14 @@ class EWWW_Configurator implements ConfiguratorInterface {
 		return $this->config[ $name ];
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param string $name
+	 * @param mixed $value
+	 *
+	 * @return $this
+	 */
 	public function set( $name, $value ) {
 		if ( ewww_image_optimizer_set_option( $name, $value ) ) {
 			$this->config[ $name ] = $value;
@@ -28,14 +54,31 @@ class EWWW_Configurator implements ConfiguratorInterface {
 		return $this;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 */
 	public function has( $name ) {
 		return isset( $this->config[ $name ] );
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @return bool
+	 */
 	public function save() {
 		return true;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @return array
+	 */
 	public function getConfiguration() {
 		global $wpdb;
 
@@ -53,6 +96,13 @@ class EWWW_Configurator implements ConfiguratorInterface {
 		return $config;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param array $configuration
+	 *
+	 * @return $this
+	 */
 	public function setConfiguration( array $configuration ) {
 		foreach ( $configuration as $name => $value ) {
 			$this->set( $name, $value );
@@ -61,6 +111,13 @@ class EWWW_Configurator implements ConfiguratorInterface {
 		return $this;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param array $arguments
+	 *
+	 * @return array
+	 */
 	public function getSuggestions( array $arguments = array() ) {
 		$suggestions = array();
 
@@ -80,6 +137,13 @@ class EWWW_Configurator implements ConfiguratorInterface {
 		return $suggestions;
 	}
 
+	/**
+	 * @inheritdoc
+	 *
+	 * @param array $optimizations
+	 *
+	 * @return bool
+	 */
 	public function configure( array $optimizations = array() ) {
 
 		if ( isset( $optimizations['ewww_image_optimizer_jpg_quality'] ) ) {

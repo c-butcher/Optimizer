@@ -20,7 +20,6 @@ use My\Optimized\Helpers\Logger;
             'warnings'  => $logger->get( 'warning' ),
 	        'notices'   => $logger->get( 'notice' ),
         ) );
-        $logger->clear();
     ?>
 
     <menu id="configurators" class="configurators">

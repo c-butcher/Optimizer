@@ -6,16 +6,33 @@ use My\Optimized\Configurators\ConfiguratorInterface;
 use My\Optimized\Models\ConfigRevision;
 use My\Optimized\Models\PluginInfo;
 
+/**
+ * Class RestoreService
+ *
+ * @package My\Optimized\Helpers
+ * @author Chris Butcher <c.butcher@hotmail.com>
+ * @version 0.1.0
+ */
 class RestoreService
 {
 	protected $db;
 
+	/**
+	 * RestoreService constructor.
+	 */
 	public function __construct() {
 		global $wpdb;
 
 		$this->db = $wpdb;
 	}
 
+	/**
+	 * Returns an array of all the revisions for this specific plugin.
+	 *
+	 * @param string $name
+	 *
+	 * @return array
+	 */
 	public function getRevisions( $name ) {
 		$revisions = array();
 
@@ -33,6 +50,13 @@ class RestoreService
 		return $revisions;
 	}
 
+	/**
+	 * Check whether the supplied plugin has any revisions.
+	 *
+	 * @param string $name The name of the plugin.
+	 *
+	 * @return bool
+	 */
 	public function hasRevisions( $name ) {
 		$has = false;
 
@@ -49,6 +73,13 @@ class RestoreService
 		return $has;
 	}
 
+	/**
+	 * Returns a specific revision.
+	 *
+	 * @param integer $id
+	 *
+	 * @return ConfigRevision|null
+	 */
 	public function getRevision( $id ) {
 		$revision = null;
 
@@ -66,6 +97,13 @@ class RestoreService
 		return $revision;
 	}
 
+	/**
+	 * Returns the very last version that was created for a specific plugin.
+	 *
+	 * @param string $name The name of the plugin.
+	 *
+	 * @return ConfigRevision|null
+	 */
 	public function getLastRevision( $name ) {
 		$revision = null;
 
@@ -83,6 +121,14 @@ class RestoreService
 		return $revision;
 	}
 
+	/**
+	 * Creates and saves a new revision for the supplied plugin.
+	 *
+	 * @param PluginInfo $plugin
+	 * @param ConfiguratorInterface $configurator
+	 *
+	 * @return bool
+	 */
 	public function create( PluginInfo $plugin, ConfiguratorInterface $configurator ) {
 		$revision = new ConfigRevision(array(
 			'plugin'  => $plugin->name,
@@ -93,6 +139,13 @@ class RestoreService
 		return $this->save( $revision );
 	}
 
+	/**
+	 * Saves a plugins configuration revision to the database.
+	 *
+	 * @param ConfigRevision $revision
+	 *
+	 * @return bool
+	 */
 	protected function save( ConfigRevision $revision ) {
 		$query = $this->db->prepare( "INSERT INTO `{$this->db->prefix}my_config_backups` (`plugin`, `version`, `datetime`, `config`) VALUES (%s, %s, %s, %s)", array(
 			$revision->plugin,
@@ -111,6 +164,13 @@ class RestoreService
 		return true;
 	}
 
+	/**
+	 * Deletes a configuration revision from the database.
+	 *
+	 * @param ConfigRevision $revision
+	 *
+	 * @return bool
+	 */
 	public function delete( ConfigRevision $revision ) {
 		$query = $this->db->prepare( "DELETE FROM `{$this->db->prefix}my_config_backups` WHERE `id` = %d", array(
 			$revision->id,
